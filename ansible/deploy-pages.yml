@@ -1,0 +1,36 @@
+- name: Deploy AWS custom index
+  hosts: aws
+  become: true
+
+  tasks:
+    - name: Copy AWS index file
+      copy:
+        src: index-aws.html
+        dest: /var/www/html/index.html
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Restart nginx
+      systemd:
+        name: nginx
+        state: restarted
+
+
+- name: Deploy Azure custom index
+  hosts: azure
+  become: true
+
+  tasks:
+    - name: Copy Azure index file
+      copy:
+        src: index-azure.html
+        dest: /var/www/html/index.html
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Restart nginx
+      systemd:
+        name: nginx
+        state: restarted

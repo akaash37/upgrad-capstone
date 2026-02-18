@@ -1,0 +1,31 @@
+- name: Install and start Nginx on AWS and Azure
+  hosts: all
+  become: true
+
+  tasks:
+
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install nginx
+      apt:
+        name: nginx
+        state: present
+
+    - name: Enable nginx
+      systemd:
+        name: nginx
+        enabled: yes
+
+    - name: Start nginx
+      systemd:
+        name: nginx
+        state: started
+
+    - name: Check nginx status
+      command: systemctl is-active nginx
+      register: nginx_status
+
+    - debug:
+        var: nginx_status.stdout
